@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface CounterpartyRepository extends JpaRepository<Counterparty, Long> {
-    List<Counterparty> findByNameContainingIgnoreCase(String name);
+    List<Counterparty> findByNameIgnoreCase(String name);
 }
