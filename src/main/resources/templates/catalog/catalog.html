@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+
+    <title>catalogs</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col fs-3 badge bg-primary text-wrap">
+                <a href="#" role="button" style="color: aliceblue; text-decoration: none;">Фильтры</a>
+            </div>
+
+            <div class="col-9 fs-3 badge bg-primary text-wrap">
+                Список контрагентов:
+            </div>
+
+            <div class="col fs-3 badge bg-primary text-wrap">
+                <a th:href="@{/catalog/operations}" role="button" style="color: aliceblue; text-decoration: none;">Операции</a>
+            </div>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="container">
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="text-center">
+            <tr class="table-primary">
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">TIN</th>
+                <th scope="col">TRR</th>
+                <th scope="col">Account number</th>
+                <th scope="col">BIC</th>
+            </tr>
+            </thead>
+
+            <tbody class="text-center">
+            <tr th:each="counterparty : ${counterparties}" class="table-light">
+                <th scope="row"><p th:text="${counterparty.getId()}"></p></th>
+                <td><p th:text="${counterparty.getName()}"></p></td>
+                <td><p th:text="${counterparty.getTIN()}"></p></td>
+                <td><p th:text="${counterparty.getTRR()}"></p></td>
+                <td><p th:text="${counterparty.getAccountNumber()}"></p></td>
+                <td><p th:text="${counterparty.getBIC()}"></p></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"></script>
+</body>
+</html>

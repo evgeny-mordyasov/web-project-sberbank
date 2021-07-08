@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+
+    <title>operations</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center fs-3 badge bg-primary text-wrap" style="width: 6rem;">
+                Возможные действия над справочником:
+            </div>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="container text-center">
+        <p class="fw-light badge bg-light text-wrap fs-6" style="color: black">
+            Нажмите на кнопку, если Вы желаете добавить нового контрагента.
+        </p><br/>
+        <a class="btn btn-success w-25 p-3" th:href="@{/catalog/operations/add}" role="button"><p class="fs-2">Добавить</p></a><br/><br/>
+
+        <p class="fw-light badge bg-light text-wrap fs-6" style="color: black">
+            Нажмите на кнопку, если Вы желаете изменить данные находящегося в справочнике контрагента.
+        </p><br/>
+        <a class="btn btn-warning w-25 p-3" href="#" role="button"><p class="fs-2">Обновить</p></a><br/><br/>
+
+        <p class="fw-light badge bg-light text-wrap fs-6" style="color: black">
+            Нажмите на кнопку, если Вы желаете удалить контрагента из справочника.
+        </p><br/>
+        <a class="btn btn-danger w-25 p-3" th:href="@{/catalog/operations/delete}" role="button"><p class="fs-2">Удалить</p></a><br/><br/><br/><br/>
+
+        <a class="btn btn-secondary w-25 p-3" th:href="@{/catalog}" role="button"><p class="fs-2">Вернуться назад</p></a>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"></script>
+</body>
+</html>
