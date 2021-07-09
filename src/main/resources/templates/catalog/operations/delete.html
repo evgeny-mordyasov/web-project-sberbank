@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row">
             <div class="col fs-3 badge bg-primary text-wrap">
-                Выберите вариант удаления контрагента из справочника
+                Выберите вариант удаления контрагента из справочника:
             </div>
         </div>
     </div>
@@ -199,14 +199,8 @@
         }
     </script>
 
-    <script>
-        $('#deleteByName').on('hidden.bs.modal', function () {
-            window.location.href = '/catalog/operations/delete';
-        })
-    </script>
-
-    <script>
-        $('#deleteById').on('hidden.bs.modal', function () {
+    <script id="modal_end" th:data-src="${modalName}">
+        $(document.getElementById("modal").getAttribute("data-src")).on('hidden.bs.modal', function () {
             window.location.href = '/catalog/operations/delete';
         })
     </script>
