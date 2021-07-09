@@ -53,4 +53,15 @@ public class CounterpartyServiceImpl implements CounterpartyService {
             return Optional.empty();
         }
     }
+
+    @Override
+    public Optional<Counterparty> findByAccountNumberAndBIC(String accountNumber, String BIC) {
+        List<Counterparty> list = repository.findByAccountNumberIgnoreCaseAndBIC(accountNumber, BIC);
+
+        if (list.size() == 1) {
+            return Optional.of(list.get(0));
+        } else {
+            return Optional.empty();
+        }
+    }
 }

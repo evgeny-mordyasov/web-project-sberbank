@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface CounterpartyService extends AbstractService<Counterparty, Long> {
     Optional<Counterparty> findByName(String name);
+    Optional<Counterparty> findByAccountNumberAndBIC(String accountNumber, String BIC);
 }

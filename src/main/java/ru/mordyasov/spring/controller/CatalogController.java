@@ -28,4 +28,11 @@ public class CatalogController {
     public String operations() {
         return "catalog/operations/operations";
     }
+
+    @GetMapping("/filters")
+    public String filters(Model model) {
+        model.addAttribute("filter", "true");
+
+        return "catalog/filters/filters";
+    }
 }
