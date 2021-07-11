@@ -126,11 +126,12 @@ public class CounterpartyValidator implements Validator {
 
     private boolean checkingTheAccountNumber(String an, String BIC) {
         int [] coefficients = {7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1};
+        String lastThreeDigitsOfBIC = BIC.substring(BIC.length() - 3);
 
-        if (BIC.startsWith("00", 6)) {
+        if (an.startsWith("301") && an.endsWith(lastThreeDigitsOfBIC)) {
             return getChecksum('0' + BIC.substring(4, 6) + an, coefficients) % 10 == 0;
         } else {
-            return getChecksum(BIC.substring(0, 4) + an, coefficients) % 10 == 0;
+            return getChecksum(lastThreeDigitsOfBIC + an, coefficients) % 10 == 0;
         }
     }
 
