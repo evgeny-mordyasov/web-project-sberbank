@@ -41,7 +41,7 @@ public class AddendumController {
     @PostMapping
     public String add(@Validated @ModelAttribute("object") Counterparty counterparty, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            checkingFields(result, model);
+            FieldValidator.checkingFields(result, model);
 
             return "catalog/operations/add";
         }
@@ -49,18 +49,5 @@ public class AddendumController {
         service.add(counterparty);
 
         return "redirect:/catalog";
-    }
-
-    private void checkingFields(BindingResult result, Model model) {
-        Stream.of("name", "TIN", "TRR", "accountNumber", "BIC")
-                .forEach(f ->
-                        checking(f, result, model));
-    }
-
-    private void checking(String field, BindingResult result, Model model) {
-        model.addAttribute("validOrInvalid" + field,
-                result.hasFieldErrors(field) ?
-                        "is-invalid" :
-                        "is-valid");
     }
 }

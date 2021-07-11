@@ -1,21 +1,35 @@
 package ru.mordyasov.controller.operations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.mordyasov.domain.Counterparty;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 import ru.mordyasov.utils.MyStringUtils;
 
+import java.util.stream.Stream;
+
 @Controller
 @RequestMapping("/catalog/operations/update")
 public class UpdateController {
     private CounterpartyService service;
+    private Validator validator;
 
     @Autowired
-    public UpdateController(CounterpartyService service) {
+    public UpdateController(CounterpartyService service, @Qualifier("counterpartyValidator") Validator validator) {
         this.service = service;
+        this.validator = validator;
+    }
+
+    @InitBinder
+    private void initBinder(WebDataBinder binder) {
+        binder.setValidator(validator);
     }
 
     @GetMapping
@@ -75,7 +89,15 @@ public class UpdateController {
     }
 
     @PostMapping
-    public String update(@ModelAttribute("counterparty") Counterparty counterparty) {
+    public String update(@Validated @ModelAttribute("counterparty") Counterparty counterparty,
+                         BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            FieldValidator.checkingFields(result, model);
+            model.addAttribute("modalName", "#update");
+
+            return "catalog/operations/update";
+        }
+
         service.update(counterparty);
 
         return "catalog/operations/update";

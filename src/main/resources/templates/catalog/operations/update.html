@@ -50,7 +50,7 @@
                 <label for="by_name" class="form-label fw-light badge bg-light text-wrap fs-4" style="color: black">Наименование</label>
                 <center>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="by_name" name="name" value="">
+                        <input type="text" class="form-control" id="by_name" name="name" value="" required>
                     </div>
                 </center>
             </div>
@@ -103,7 +103,7 @@
                 <label for="by_id" class="form-label fw-light badge bg-light text-wrap fs-4" style="color: black">Идентификатор</label>
                 <center>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="by_id" name="id" value="">
+                        <input type="text" class="form-control" id="by_id" name="id" value="" required>
                     </div>
                 </center>
             </div>
@@ -174,35 +174,40 @@
                                 <label for="name" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">Наименование</label>
                                 <center>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" id="name" th:field="*{name}">
+                                        <input type="text" th:class="'form-control ' + ${validOrInvalidname}" id="name" th:field="*{name}">
+                                        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: crimson"></div>
                                     </div><br/>
                                 </center>
 
                                 <label for="TIN" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">ИНН</label>
                                 <center>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" id="TIN" th:field="*{TIN}">
+                                        <input type="text" th:class="'form-control ' + ${validOrInvalidTIN}" id="TIN" th:field="*{TIN}">
+                                        <div th:if="${#fields.hasErrors('TIN')}" th:errors="*{TIN}" style="color: crimson"></div>
                                     </div><br/>
                                 </center>
 
                                 <label for="TRR" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">КПП</label>
                                 <center>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" id="TRR" th:field="*{TRR}">
+                                        <input type="text" th:class="'form-control ' + ${validOrInvalidTRR}" id="TRR" th:field="*{TRR}">
+                                        <div th:if="${#fields.hasErrors('TRR')}" th:errors="*{TRR}" style="color: crimson"></div>
                                     </div><br/>
                                 </center>
 
                                 <label for="account_number" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">Номер счёта</label>
                                 <center>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" id="account_number" th:field="*{accountNumber}">
+                                        <input type="text" th:class="'form-control ' + ${validOrInvalidaccountNumber}" id="account_number" th:field="*{accountNumber}">
+                                        <div th:if="${#fields.hasErrors('accountNumber')}" th:errors="*{accountNumber}" style="color: crimson"></div>
                                     </div><br/>
                                 </center>
 
                                 <label for="BIC" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">БИК банка</label>
                                 <center>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" id="BIC" th:field="*{BIC}">
+                                        <input type="text" th:class="'form-control ' + ${validOrInvalidBIC}" id="BIC" th:field="*{BIC}">
+                                        <div th:if="${#fields.hasErrors('BIC')}" th:errors="*{BIC}" style="color: crimson"></div>
                                     </div><br/>
                                 </center>
                             </div>

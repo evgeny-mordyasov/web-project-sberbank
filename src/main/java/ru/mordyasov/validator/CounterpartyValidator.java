@@ -45,9 +45,11 @@ public class CounterpartyValidator implements Validator {
         } else {
             boolean isDuplicateName = service.findAll()
                     .stream()
-                    .anyMatch(obj ->
-                            obj.getName().equals(c.getName())
-                    );
+                    .anyMatch(obj -> {
+                        if (c.getId() != null) {
+                            return obj.getName().equals(c.getName()) && !obj.getId().equals(c.getId());
+                        } else return obj.getName().equals(c.getName());
+                    });
 
             if (isDuplicateName) {
                 errors.rejectValue("name", "", "Введенное наименование уже существует в справочнике.");
