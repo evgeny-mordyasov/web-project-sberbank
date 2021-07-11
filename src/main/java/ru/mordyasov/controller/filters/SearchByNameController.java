@@ -1,4 +1,4 @@
-package ru.mordyasov.spring.controller.filters;
+package ru.mordyasov.controller.filters;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

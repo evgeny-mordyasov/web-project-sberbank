@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mordyasov.domain.Counterparty;
 import ru.mordyasov.service.interfaces.CounterpartyService;
-import ru.mordyasov.spring.repository.CounterpartyRepository;
+import ru.mordyasov.repository.CounterpartyRepository;
 
 import java.util.List;
 import java.util.Optional;

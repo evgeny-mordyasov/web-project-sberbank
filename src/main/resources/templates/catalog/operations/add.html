@@ -28,35 +28,41 @@
                 <label for="name" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">Наименование</label>
                 <center>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="name" th:field="*{name}">
-                    </div><br/>
+                        <input type="text" th:class="'form-control ' + ${validOrInvalidName}" id="name" th:field="*{name}" required>
+                        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: crimson"></div>
+                    </div>
+                    <br/>
                 </center>
 
                 <label for="TIN" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">ИНН</label>
                 <center>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="TIN" th:field="*{TIN}">
+                        <input type="text" th:class="'form-control ' + ${validOrInvalidTin}" id="TIN" th:field="*{TIN}" required>
+                        <div th:if="${#fields.hasErrors('TIN')}" th:errors="*{TIN}" style="color: crimson"></div>
                     </div><br/>
                 </center>
 
                 <label for="TRR" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">КПП</label>
                 <center>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="TRR" th:field="*{TRR}">
+                        <input type="text" th:class="'form-control ' + ${validOrInvalidTrr}" id="TRR" th:field="*{TRR}" required>
+                        <div th:if="${#fields.hasErrors('TRR')}" th:errors="*{TRR}" style="color: crimson"></div>
                     </div><br/>
                 </center>
 
                 <label for="account_number" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">Номер счёта</label>
                 <center>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="account_number" th:field="*{accountNumber}">
+                        <input type="text" th:class="'form-control ' + ${validOrInvalidAc}" id="account_number" th:field="*{accountNumber}" required>
+                        <div th:if="${#fields.hasErrors('accountNumber')}" th:errors="*{accountNumber}" style="color: crimson"></div>
                     </div><br/>
                 </center>
 
-                <label for="BIC" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">БИК банка</label>
+                <label for="BIC" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">БИК</label>
                 <center>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="BIC" th:field="*{BIC}">
+                        <input type="text" th:class="'form-control ' + ${validOrInvalidBic}" id="BIC" th:field="*{BIC}" required>
+                        <div th:if="${#fields.hasErrors('BIC')}" th:errors="*{BIC}" style="color: crimson"></div>
                     </div><br/>
                 </center>
             </div>
@@ -80,7 +86,7 @@
     </div>
 
     <div class="modal fade" id="info" tabindex="-1" aria-labelledby="label" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="label">Информация</h5>
@@ -88,24 +94,63 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="row">
-                        # Наименование.
-                    </div>
+                    <div class="container">
+                        <p style="text-indent: 25px;">
+                            Для добавления контрагента в справочник необходимо заполнить ВСЕ поля валидными (корректными) данными.
+                            Если какое-то поле всё-таки не было заполнено или было заполнено некорректно, то
+                            все ранее написанные данные могут быть сброшены. Поэтому будьте внимательны перед тем, как нажимать кнопку "Добавить".
+                            Под некорректно заполненным полем может появиться текст красного цвета, сигнализирующий о том,
+                            что введенные данные были невалидными. Исправьте в соответствии с нижеуказанными правилами и
+                            попытайтесь добавить контрагента снова.
+                        </p>
 
-                    <div class="row">
-                        # ИНН.
-                    </div>
+                        <hr/>
 
-                    <div class="row">
-                        # КПП.
-                    </div>
+                        <div class="row">
+                            <p class="fs-5 fw-weight-bold"># Наименование.</p>
+                            <p style="text-indent: 25px;">
+                                Данное поле ограничено 20 символами и является уникальным.
+                                Вы не сможете создать контрагента с наименованием, которое уже есть в справочнике.
+                            </p>
+                        </div>
 
-                    <div class="row">
-                        # Номер счёта.
-                    </div>
+                        <div class="row">
+                            <p class="fs-5 fw-weight-bold"># ИНН.</p>
+                            <p style="text-indent: 25px;">
+                                Идентификационный номер налогоплательщика (сокращенно ИНН) – документ,
+                                содержащий цифровой шифр, присваивающийся всем плательщикам налогов.
+                                Это поле может быть корректно заполнено двумя способами:
+                                ввести ИНН организации (10 цифр) или ИНН физического лица (12 цифр).
+                                Но для ввода правильности ИНН недостаточно, если цифры введены произвольным способом.
+                                ИНН должен быть подлинным, невыдуманным, иначе у Вас не получится заполнить это поле.
+                            </p>
+                        </div>
 
-                    <div class="row">
-                        # БИК банка.
+                        <div class="row">
+                            <p class="fs-5 fw-weight-bold"># КПП.</p>
+                            <p style="text-indent: 25px;">
+                                КПП - Код причины постановки на учет (сокращенно КПП).
+                                Как правило, данное поле состоит из 9 цифр, но существуют исключения (наличие латинских букв).
+                            </p>
+                        </div>
+
+                        <div class="row">
+                            <p class="fs-5 fw-weight-bold"># Номер счёта.</p>
+                            <p>
+                                Это поле состоит из 20 цифр. Для правильного ввода необходимо корректно ввести БИК. Если БИК
+                                введен некорректно, у Вас не получится пройти проверку на правильность ввода номера счёта. Это
+                                связано с тем, что БИК и номер счёта тесно связаны друг с другом. У Вас так же не получится
+                                произвольным способом заполнить данное поле (вписать выдуманное значение).
+                            </p>
+                        </div>
+
+                        <div class="row">
+                            <p class="fs-5 fw-weight-bold"># БИК.</p>
+                            <p>
+                                Банковский идентификационный код (сокращенно БИК) – уникальный код кредитной организации.
+                                Данное поле состоит из 9 цифр.
+                            </p>
+                        </div>
                     </div>
                 </div>
 

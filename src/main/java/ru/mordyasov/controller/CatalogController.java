@@ -1,4 +1,4 @@
-package ru.mordyasov.spring.controller;
+package ru.mordyasov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
