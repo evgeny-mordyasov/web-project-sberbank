@@ -28,7 +28,7 @@
                 <label for="name" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">Наименование</label>
                 <center>
                     <div class="col-sm-3">
-                        <input type="text" th:class="'form-control ' + ${validOrInvalidName}" id="name" th:field="*{name}" required>
+                        <input type="text" th:class="'form-control ' + ${validOrInvalidname}" id="name" th:field="*{name}" required>
                         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: crimson"></div>
                     </div>
                     <br/>
@@ -37,7 +37,7 @@
                 <label for="TIN" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">ИНН</label>
                 <center>
                     <div class="col-sm-3">
-                        <input type="text" th:class="'form-control ' + ${validOrInvalidTin}" id="TIN" th:field="*{TIN}" required>
+                        <input type="text" th:class="'form-control ' + ${validOrInvalidTIN}" id="TIN" th:field="*{TIN}" required>
                         <div th:if="${#fields.hasErrors('TIN')}" th:errors="*{TIN}" style="color: crimson"></div>
                     </div><br/>
                 </center>
@@ -45,7 +45,7 @@
                 <label for="TRR" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">КПП</label>
                 <center>
                     <div class="col-sm-3">
-                        <input type="text" th:class="'form-control ' + ${validOrInvalidTrr}" id="TRR" th:field="*{TRR}" required>
+                        <input type="text" th:class="'form-control ' + ${validOrInvalidTRR}" id="TRR" th:field="*{TRR}" required>
                         <div th:if="${#fields.hasErrors('TRR')}" th:errors="*{TRR}" style="color: crimson"></div>
                     </div><br/>
                 </center>
@@ -53,7 +53,7 @@
                 <label for="account_number" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">Номер счёта</label>
                 <center>
                     <div class="col-sm-3">
-                        <input type="text" th:class="'form-control ' + ${validOrInvalidAc}" id="account_number" th:field="*{accountNumber}" required>
+                        <input type="text" th:class="'form-control ' + ${validOrInvalidaccountNumber}" id="account_number" th:field="*{accountNumber}" required>
                         <div th:if="${#fields.hasErrors('accountNumber')}" th:errors="*{accountNumber}" style="color: crimson"></div>
                     </div><br/>
                 </center>
@@ -61,7 +61,7 @@
                 <label for="BIC" class="form-label fw-light badge bg-light text-wrap fs-6" style="color: black">БИК</label>
                 <center>
                     <div class="col-sm-3">
-                        <input type="text" th:class="'form-control ' + ${validOrInvalidBic}" id="BIC" th:field="*{BIC}" required>
+                        <input type="text" th:class="'form-control ' + ${validOrInvalidBIC}" id="BIC" th:field="*{BIC}" required>
                         <div th:if="${#fields.hasErrors('BIC')}" th:errors="*{BIC}" style="color: crimson"></div>
                     </div><br/>
                 </center>

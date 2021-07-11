@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.mordyasov.domain.Counterparty;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 
+import java.util.stream.Stream;
+
 @Controller
 @RequestMapping("/catalog/operations/add")
 public class AddendumController {
@@ -50,34 +52,15 @@ public class AddendumController {
     }
 
     private void checkingFields(BindingResult result, Model model) {
-        if (result.hasFieldErrors("name")) {
-            model.addAttribute("validOrInvalidName", "is-invalid");
-        } else {
-            model.addAttribute("validOrInvalidName", "is-valid");
-        }
+        Stream.of("name", "TIN", "TRR", "accountNumber", "BIC")
+                .forEach(f ->
+                        checking(f, result, model));
+    }
 
-        if (result.hasFieldErrors("TIN")) {
-            model.addAttribute("validOrInvalidTin", "is-invalid");
-        } else {
-            model.addAttribute("validOrInvalidTin", "is-valid");
-        }
-
-        if (result.hasFieldErrors("TRR")) {
-            model.addAttribute("validOrInvalidTrr", "is-invalid");
-        } else {
-            model.addAttribute("validOrInvalidTrr", "is-valid");
-        }
-
-        if (result.hasFieldErrors("accountNumber")) {
-            model.addAttribute("validOrInvalidAc", "is-invalid");
-        } else {
-            model.addAttribute("validOrInvalidAc", "is-valid");
-        }
-
-        if (result.hasFieldErrors("BIC")) {
-            model.addAttribute("validOrInvalidBic", "is-invalid");
-        } else {
-            model.addAttribute("validOrInvalidBic", "is-valid");
-        }
+    private void checking(String field, BindingResult result, Model model) {
+        model.addAttribute("validOrInvalid" + field,
+                result.hasFieldErrors(field) ?
+                        "is-invalid" :
+                        "is-valid");
     }
 }
