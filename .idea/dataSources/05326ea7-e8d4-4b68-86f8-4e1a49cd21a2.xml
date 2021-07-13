@@ -178,7 +178,7 @@
     <collation id="163" parent="2" name="VIETNAMESE_VIETNAM"/>
     <sequence id="164" parent="4" name="HIBERNATE_SEQUENCE">
       <ObjectId>6</ObjectId>
-      <SequenceIdentity>null(1)</SequenceIdentity>
+      <SequenceIdentity>null(449)</SequenceIdentity>
     </sequence>
     <table id="165" parent="4" name="COUNTERPARTY">
       <ObjectId>3</ObjectId>
