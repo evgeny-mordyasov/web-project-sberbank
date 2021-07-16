@@ -1,7 +1,6 @@
 package ru.mordyasov.utils;
 
 import java.math.BigInteger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MyStringUtils {

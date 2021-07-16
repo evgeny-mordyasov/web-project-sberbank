@@ -19,6 +19,7 @@ import ru.mordyasov.validator.CounterpartyValidator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import static org.mockito.Mockito.doAnswer;
@@ -115,8 +116,8 @@ public class AddendumControllerTest {
 
     @Test
     public void addPostMethodWhereNameAlreadyExists() {
-        List<Counterparty> database = new ArrayList<>(List.of(validObject));
-        when(service.findAll()).thenReturn(database);
+        Counterparty objectInDB = new Counterparty(2L, "Сбербанк", "", "", "", "");
+        when(service.findByName(validObject.getName())).thenReturn(Optional.of(objectInDB));
 
         lambdaForCheckingCase.get();
     }

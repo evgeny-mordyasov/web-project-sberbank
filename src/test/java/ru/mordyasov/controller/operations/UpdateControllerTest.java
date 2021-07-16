@@ -220,8 +220,7 @@ public class UpdateControllerTest {
                 validObject.getAccountNumber(),
                 validObject.getBIC());
 
-        List<Counterparty> database = new ArrayList<>(List.of(objectInDB));
-        when(service.findAll()).thenReturn(database);
+        when(service.findByName(validObject.getName())).thenReturn(Optional.of(objectInDB));
 
         lambdaForCheckingCase.get();
     }

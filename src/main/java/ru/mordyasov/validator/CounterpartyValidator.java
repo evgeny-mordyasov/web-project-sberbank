@@ -43,17 +43,11 @@ public class CounterpartyValidator implements Validator {
         } else if (c.getName().length() > 20) {
             errors.rejectValue("name", "", "Наименование не должно превышать 20 символов.");
         } else {
-            boolean isDuplicateName = service.findAll()
-                    .stream()
-                    .anyMatch(obj -> {
-                        if (c.getId() != null) {
-                            return obj.getName().equals(c.getName()) && !obj.getId().equals(c.getId());
-                        } else return obj.getName().equals(c.getName());
-                    });
-
-            if (isDuplicateName) {
-                errors.rejectValue("name", "", "Введенное наименование уже существует в справочнике.");
-            }
+            service.findByName(c.getName()).ifPresent(o -> {
+                if (!o.getId().equals(c.getId())) {
+                    errors.rejectValue("name", "", "Введенное наименование уже существует в справочнике.");
+                }
+            });
         }
     }
 

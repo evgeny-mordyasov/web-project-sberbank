@@ -10,7 +10,7 @@ import org.springframework.validation.Validator;
 import ru.mordyasov.domain.Counterparty;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 
-import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -39,8 +39,6 @@ public class CounterpartyValidatorTest {
                 "773601001",
                 "30301810000006000001",
                 "044525225");
-
-        when(service.findAll()).thenReturn(List.of(validObject));
     }
 
     @Test
@@ -63,7 +61,7 @@ public class CounterpartyValidatorTest {
         Counterparty objectInDB =
                 new Counterparty(2L, "Сбербанк", "", "", "", "");
 
-        when(service.findAll()).thenReturn(List.of(objectInDB));
+        when(service.findByName(objectInDB.getName())).thenReturn(Optional.of(objectInDB));
         validator.validate(validObject, errors);
 
         verify(errors, times(calledOnce)).rejectValue(eq("name"), any(), any());
