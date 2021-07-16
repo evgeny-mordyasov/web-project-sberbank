@@ -1,13 +1,13 @@
 package ru.mordyasov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 
-@Controller
+@RestController
 @RequestMapping("/catalog")
 public class CatalogController {
     private CounterpartyService service;
@@ -17,22 +17,19 @@ public class CatalogController {
         this.service = service;
     }
 
-    @GetMapping
-    public String catalogs(Model model) {
-        model.addAttribute("counterparties", service.findAll());
-
-        return "catalog/catalog";
+    @GetMapping()
+    public ModelAndView catalog() {
+        return new ModelAndView("catalog/catalog")
+                .addObject("counterparties", service.findAll());
     }
 
     @GetMapping("/operations")
-    public String operations() {
-        return "catalog/operations/operations";
+    public ModelAndView operations() {
+        return new ModelAndView("catalog/operations/operations");
     }
 
     @GetMapping("/filters")
-    public String filters(Model model) {
-        model.addAttribute("filter", "true");
-
-        return "catalog/filters/filters";
+    public ModelAndView filters() {
+        return new ModelAndView("catalog/filters/filters");
     }
 }

@@ -2,19 +2,17 @@ package ru.mordyasov.controller.operations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.mordyasov.domain.Counterparty;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 
-import java.util.stream.Stream;
-
-@Controller
+@RestController
 @RequestMapping("/catalog/operations/add")
 public class AddendumController {
     private CounterpartyService service;
@@ -32,22 +30,25 @@ public class AddendumController {
     }
 
     @GetMapping
-    public String add(Model model) {
-        model.addAttribute("object", new Counterparty());
-
-        return "catalog/operations/add";
+    public ModelAndView add() {
+        return new ModelAndView("catalog/operations/add")
+                .addObject("object", new Counterparty());
     }
 
     @PostMapping
-    public String add(@Validated @ModelAttribute("object") Counterparty counterparty, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            FieldValidator.checkingFields(result, model);
+    public ModelAndView add(@Validated @ModelAttribute("object") Counterparty counterparty, BindingResult result) {
+        ModelAndView model = new ModelAndView();
 
-            return "catalog/operations/add";
+        if (result.hasErrors()) {
+            model.addObject("activeValidator", "true");
+            model.setViewName("catalog/operations/add");
+
+            return model;
         }
 
         service.add(counterparty);
+        model.setViewName("redirect:/catalog");
 
-        return "redirect:/catalog";
+        return model;
     }
 }

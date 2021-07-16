@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 import ru.mordyasov.utils.MyStringUtils;
 
-@Controller
+@RestController
 @RequestMapping("/catalog/operations/delete")
 public class RemovalController {
     private CounterpartyService service;
@@ -18,42 +19,42 @@ public class RemovalController {
     }
 
     @GetMapping
-    public String delete(Model model) {
-        model.addAttribute("none", "d-none");
-
-        return "catalog/operations/delete";
+    public ModelAndView delete() {
+        return new ModelAndView("catalog/operations/delete")
+                .addObject("none", "d-none");
     }
 
     @PostMapping("/search_by_name")
-    public String deleteByName(@RequestParam("name") String name, Model model) {
-        model.addAttribute("counterparty",  service.findByName(name).orElse(null));
-        model.addAttribute("modalName", "#deleteByName");
-
-        return "catalog/operations/delete";
+    public ModelAndView deleteByName(@RequestParam("name") String name) {
+        return new ModelAndView("catalog/operations/delete")
+                .addObject("counterparty", service.findByName(name).orElse(null))
+                .addObject("modalName", "#deleteByName");
     }
 
     @PostMapping("/search_by_name/{id}")
-    public String deleteByName(@PathVariable("id") Long id) {
+    public ModelAndView deleteByName(@PathVariable("id") Long id) {
         service.delete(service.find(id).get());
 
-        return "redirect:/catalog/operations/delete";
+        return new ModelAndView("redirect:/catalog/operations/delete");
     }
 
     @PostMapping("/search_by_id")
-    public String deleteById(@RequestParam("id") String id, Model model) {
+    public ModelAndView deleteById(@RequestParam("id") String id) {
+        ModelAndView model = new ModelAndView("catalog/operations/delete");
+
         if (!id.isEmpty() && MyStringUtils.isNumeric(id)) {
-            model.addAttribute("counterparty", service.find(Long.parseLong(id)).orElse(null));
+            model.addObject("counterparty", service.find(Long.parseLong(id)).orElse(null));
         }
 
-        model.addAttribute("modalName", "#deleteById");
+        model.addObject("modalName", "#deleteById");
 
-        return "catalog/operations/delete";
+        return model;
     }
 
     @PostMapping("/search_by_id/{id}")
-    public String deleteById(@PathVariable("id") Long id) {
+    public ModelAndView deleteById(@PathVariable("id") Long id) {
         service.delete(service.find(id).get());
 
-        return "redirect:/catalog/operations/delete";
+        return new ModelAndView("redirect:/catalog/operations/delete");
     }
 }

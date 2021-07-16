@@ -3,13 +3,11 @@ package ru.mordyasov.controller.filters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 
-@Controller
+@RestController
 @RequestMapping("/catalog/filters/search_by_name")
 public class SearchByNameController {
     private CounterpartyService service;
@@ -20,18 +18,16 @@ public class SearchByNameController {
     }
 
     @GetMapping
-    public String search(Model model) {
-        model.addAttribute("activeN", "active");
-        model.addAttribute("none", "d-none");
-
-        return "catalog/filters/filters";
+    public ModelAndView search() {
+        return new ModelAndView("catalog/filters/filters")
+                .addObject("activeN", "active")
+                .addObject("none", "d-none");
     }
 
     @PostMapping
-    public String search(@RequestParam("name") String name, Model model) {
-        model.addAttribute("activeN", "active");
-        model.addAttribute("counterparty",  service.findByName(name).orElse(null));
-
-        return "catalog/filters/filters";
+    public ModelAndView search(@RequestParam("name") String name) {
+        return new ModelAndView("catalog/filters/filters")
+                .addObject("activeN", "active")
+                .addObject("counterparty",  service.findByName(name).orElse(null));
     }
 }

@@ -45,19 +45,11 @@ public class CounterpartyServiceImpl implements CounterpartyService {
 
     @Override
     public Optional<Counterparty> findByName(String name) {
-        List<Counterparty> list = repository.findByNameIgnoreCase(name);
-
-        return list.size() == 1 ?
-                Optional.of(list.get(0)) :
-                Optional.empty();
+        return repository.findByNameIgnoreCase(name);
     }
 
     @Override
-    public Optional<Counterparty> findByAccountNumberAndBIC(String accountNumber, String BIC) {
-        List<Counterparty> list = repository.findByAccountNumberIgnoreCaseAndBIC(accountNumber, BIC);
-
-        return list.size() == 1 ?
-                Optional.of(list.get(0)) :
-                Optional.empty();
+    public List<Counterparty> findByAccountNumberAndBIC(String accountNumber, String BIC) {
+        return repository.findByAccountNumberIgnoreCaseAndBIC(accountNumber, BIC);
     }
 }

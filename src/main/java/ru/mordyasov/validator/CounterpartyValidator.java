@@ -78,6 +78,10 @@ public class CounterpartyValidator implements Validator {
             errors.rejectValue("TRR", "", "Уберите лишние проблемы/невидимые символы в начале или в конце введенного КПП.");
         } else if (c.getTRR().length() != 9) {
             errors.rejectValue("TRR", "", "КПП должен состоять из 9 знаков.");
+        } else if (!MyStringUtils.isNumeric(c.getTRR().substring(0, 4).concat(c.getTRR().substring(6)))) {
+            errors.rejectValue("TRR", "", "КПП должен состоять из цифр (5 и 6 знаки могут быть буквами).");
+        } else if (!MyStringUtils.isLatinLetters(c.getTRR().substring(4, 6)) && !MyStringUtils.isNumeric(c.getTRR().substring(4, 6))) {
+            errors.rejectValue("TRR", "", "5 и 6 знаки КПП должны быть латинскими буквами.");
         }
     }
 
@@ -90,7 +94,7 @@ public class CounterpartyValidator implements Validator {
             errors.rejectValue("accountNumber", "", "Номер счёта должен состоять из 20 цифр.");
         } else if (!MyStringUtils.isNumeric(c.getAccountNumber())) {
             errors.rejectValue("accountNumber", "", "Номер счёта должен состоять только из цифр.");
-        } else if (c.getBIC().length() != 9) {
+        } else if (c.getBIC().length() != 9 || !MyStringUtils.isNumeric(c.getBIC())) {
             errors.rejectValue("accountNumber", "", "Не удалось проверить правильность номера счёта. Введите корректно БИК.");
         } else if (!checkingTheAccountNumber(c.getAccountNumber(), c.getBIC())) {
             errors.rejectValue("accountNumber", "", "Номер счёта является некорректным.");

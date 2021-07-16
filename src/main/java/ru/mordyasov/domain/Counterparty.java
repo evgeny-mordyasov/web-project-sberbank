@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Counterparty {
@@ -16,6 +17,15 @@ public class Counterparty {
     private String TRR;
     private String accountNumber;
     private String BIC;
+
+    public Counterparty(Long id, String name, String TIN, String TRR, String accountNumber, String BIC) {
+        this.id = id;
+        this.name = name;
+        this.TIN = TIN;
+        this.TRR = TRR;
+        this.accountNumber = accountNumber;
+        this.BIC = BIC;
+    }
 
     public Counterparty(String name, String TIN, String TRR, String accountNumber, String BIC) {
         this.name = name;
@@ -74,6 +84,24 @@ public class Counterparty {
 
     public void setBIC(String BIC) {
         this.BIC = BIC;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Counterparty that = (Counterparty) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(TIN, that.TIN) &&
+                Objects.equals(TRR, that.TRR) &&
+                Objects.equals(accountNumber, that.accountNumber) &&
+                Objects.equals(BIC, that.BIC);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, TIN, TRR, accountNumber, BIC);
     }
 
     @Override

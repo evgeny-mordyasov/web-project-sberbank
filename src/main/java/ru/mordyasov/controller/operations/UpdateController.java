@@ -9,13 +9,14 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.mordyasov.domain.Counterparty;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 import ru.mordyasov.utils.MyStringUtils;
 
 import java.util.stream.Stream;
 
-@Controller
+@RestController
 @RequestMapping("/catalog/operations/update")
 public class UpdateController {
     private CounterpartyService service;
@@ -33,73 +34,71 @@ public class UpdateController {
     }
 
     @GetMapping
-    public String update() {
-        return "catalog/operations/update";
+    public ModelAndView update() {
+        return new ModelAndView("catalog/operations/update");
     }
 
     @GetMapping("/search_by_name")
-    public String updateByName(Model model) {
-        model.addAttribute("activeN", "active");
-        model.addAttribute("none", "d-none");
-
-        return "catalog/operations/update";
+    public ModelAndView updateByName() {
+        return new ModelAndView("catalog/operations/update")
+                .addObject("activeN", "active")
+                .addObject("none", "d-none");
     }
 
     @PostMapping("/search_by_name")
-    public String updateByName(@RequestParam("name") String name, Model model) {
-        model.addAttribute("activeN", "active");
-        model.addAttribute("counterparty",  service.findByName(name).orElse(null));
-
-        return "catalog/operations/update";
+    public ModelAndView updateByName(@RequestParam("name") String name) {
+        return new ModelAndView("catalog/operations/update")
+                .addObject("activeN", "active")
+                .addObject("counterparty",  service.findByName(name).orElse(null));
     }
 
     @PostMapping("/search_by_name/{id}")
-    public String updateByName(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("modalName", "#update");
-        model.addAttribute("counterparty",  service.find(id).get());
-
-        return "catalog/operations/update";
+    public ModelAndView updateByName(@PathVariable("id") Long id) {
+        return new ModelAndView("catalog/operations/update")
+                .addObject("modalName", "#update")
+                .addObject("counterparty",  service.find(id).get());
     }
 
     @GetMapping("/search_by_id")
-    public String updateById(Model model) {
-        model.addAttribute("activeID", "active");
-        model.addAttribute("none", "d-none");
-
-        return "catalog/operations/update";
+    public ModelAndView updateById() {
+        return new ModelAndView("catalog/operations/update")
+                .addObject("activeID", "active")
+                .addObject("none", "d-none");
     }
 
     @PostMapping("/search_by_id")
-    public String updateById(@RequestParam("id") String id, Model model) {
+    public ModelAndView updateById(@RequestParam("id") String id) {
+        ModelAndView model = new ModelAndView("catalog/operations/update");
+
         if (!id.isEmpty() && MyStringUtils.isNumeric(id)) {
-            model.addAttribute("counterparty", service.find(Long.parseLong(id)).orElse(null));
+            model.addObject("counterparty", service.find(Long.parseLong(id)).orElse(null));
         }
 
-        model.addAttribute("activeID", "active");
+        model.addObject("activeID", "active");
 
-        return "catalog/operations/update";
+        return model;
     }
 
     @PostMapping("/search_by_id/{id}")
-    public String updateById(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("modalName", "#update");
-        model.addAttribute("counterparty",  service.find(id).get());
-
-        return "catalog/operations/update";
+    public ModelAndView updateById(@PathVariable("id") Long id) {
+        return new ModelAndView("catalog/operations/update")
+                .addObject("modalName", "#update")
+                .addObject("counterparty",  service.find(id).get());
     }
 
     @PostMapping
-    public String update(@Validated @ModelAttribute("counterparty") Counterparty counterparty,
-                         BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            FieldValidator.checkingFields(result, model);
-            model.addAttribute("modalName", "#update");
+    public ModelAndView update(@Validated @ModelAttribute("counterparty") Counterparty counterparty, BindingResult result) {
+        ModelAndView model = new ModelAndView("catalog/operations/update");
 
-            return "catalog/operations/update";
+        if (result.hasErrors()) {
+            model.addObject("activeValidator", "true")
+                    .addObject("modalName", "#update");
+
+            return model;
         }
 
         service.update(counterparty);
 
-        return "catalog/operations/update";
+        return model;
     }
 }

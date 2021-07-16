@@ -3,13 +3,14 @@ package ru.mordyasov.controller.filters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ru.mordyasov.domain.Counterparty;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping("/catalog/filters/search_by_BIC_and_aN")
 public class SearchByBicAndAccountNumberController {
     private CounterpartyService service;
@@ -20,18 +21,18 @@ public class SearchByBicAndAccountNumberController {
     }
 
     @GetMapping
-    public String search(Model model) {
-        model.addAttribute("activeBic", "active");
-        model.addAttribute("none", "d-none");
-
-        return "catalog/filters/filters";
+    public ModelAndView search() {
+        return new ModelAndView("catalog/filters/filters")
+                .addObject("activeBic", "active")
+                .addObject("none", "d-none");
     }
 
     @PostMapping
-    public String search(@RequestParam("account_number") String aN, @RequestParam("bic") String bic, Model model) {
-        model.addAttribute("activeBic", "active");
-        model.addAttribute("counterparty",  service.findByAccountNumberAndBIC(aN, bic).orElse(null));
+    public ModelAndView search(@RequestParam("account_number") String aN, @RequestParam("bic") String bic) {
+        List<Counterparty> list = service.findByAccountNumberAndBIC(aN, bic);
 
-        return "catalog/filters/filters";
+        return new ModelAndView("catalog/filters/filters")
+                .addObject("activeBic", "active")
+                .addObject("counterparties",  list.isEmpty() ? null : list);
     }
 }

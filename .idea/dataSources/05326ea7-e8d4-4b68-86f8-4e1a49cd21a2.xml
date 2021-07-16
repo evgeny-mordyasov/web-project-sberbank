@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="H2 - doc">
+<dataSource name="doc">
   <database-model serializer="dbm" dbms="H2" family-id="H2" format-version="4.21">
     <root id="1">
       <ServerVersion>1.4.200</ServerVersion>
@@ -178,7 +178,7 @@
     <collation id="163" parent="2" name="VIETNAMESE_VIETNAM"/>
     <sequence id="164" parent="4" name="HIBERNATE_SEQUENCE">
       <ObjectId>6</ObjectId>
-      <SequenceIdentity>null(449)</SequenceIdentity>
+      <SequenceIdentity>null(482)</SequenceIdentity>
     </sequence>
     <table id="165" parent="4" name="COUNTERPARTY">
       <ObjectId>3</ObjectId>
