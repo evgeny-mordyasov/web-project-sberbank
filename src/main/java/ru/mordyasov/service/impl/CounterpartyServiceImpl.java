@@ -2,6 +2,7 @@ package ru.mordyasov.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mordyasov.domain.Counterparty;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 import ru.mordyasov.repository.CounterpartyRepository;
@@ -24,16 +25,19 @@ public class CounterpartyServiceImpl implements CounterpartyService {
     }
 
     @Override
+    @Transactional
     public void add(Counterparty counterparty) {
         repository.saveAndFlush(counterparty);
     }
 
     @Override
+    @Transactional
     public void delete(Counterparty counterparty) {
         repository.delete(counterparty);
     }
 
     @Override
+    @Transactional
     public void update(Counterparty counterparty) {
         repository.saveAndFlush(counterparty);
     }
