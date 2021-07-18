@@ -1,5 +1,7 @@
 package ru.mordyasov.controller.operations;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
@@ -29,12 +31,16 @@ public class AddendumController {
         binder.setValidator(validator);
     }
 
+    @Operation(summary = "Форма для заполнения", description = "Предоставляется небольшая формочка с полями, которые необходимо заполнить для добавления.")
+    @ApiResponse(responseCode = "200", description = "Форма успешно открылась")
     @GetMapping
     public ModelAndView add() {
         return new ModelAndView("catalog/operations/add")
                 .addObject("object", new Counterparty());
     }
 
+    @Operation(summary = "Отправка данных", description = "Отправление данных на проверку заполненных полей")
+    @ApiResponse(responseCode = "200", description = "Все введенно корректно")
     @PostMapping
     public ModelAndView add(@Validated @ModelAttribute("object") Counterparty counterparty, BindingResult result) {
         ModelAndView model = new ModelAndView();
