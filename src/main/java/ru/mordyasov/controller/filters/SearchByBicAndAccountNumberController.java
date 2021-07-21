@@ -12,6 +12,9 @@ import ru.mordyasov.service.interfaces.CounterpartyService;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс SearchByBicAndAccountNumberController, необходимый для поиска контрагента из справочника по номеру счета и БИК.
+ */
 @Controller
 @RequestMapping("/catalog/filters/search_by_BIC_and_aN")
 public class SearchByBicAndAccountNumberController {

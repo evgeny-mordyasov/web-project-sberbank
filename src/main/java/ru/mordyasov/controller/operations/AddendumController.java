@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.mordyasov.domain.Counterparty;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 
+/**
+ * Класс AddendumController, содержащий информацию по заполнению данных, а также форму для создания контрагента.
+ */
 @Controller
 @RequestMapping("/catalog/operations/add")
 public class AddendumController {

@@ -10,6 +10,9 @@ import ru.mordyasov.service.interfaces.CounterpartyService;
 
 import java.util.Map;
 
+/**
+ * Класс SearchByNameController, необхоимый для поиска контрагента из справочника по наименованию.
+ */
 @Controller
 @RequestMapping("/catalog/filters/search_by_name")
 public class SearchByNameController {

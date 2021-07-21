@@ -7,9 +7,26 @@ import ru.mordyasov.utils.MyStringUtils;
 
 import java.util.Arrays;
 
+/**
+ * Класс CounterpartyVerification, необходимый для верификации объектов класса Counterparty.
+ * Он позволяет контролировать за состоянием объектов класса Counterparty, совершая определенные
+ * манипуляции над проверками полей. Таким образом, этот класс способен создавать объекты класса Counterparty
+ * только по необходимому шаблону, избегая наличие некорректных данных.
+ */
 class CounterpartyVerification implements Verification {
+    /**
+     * Объект, состояние которого пройдет верификацию.
+     */
     private final Counterparty object;
+
+    /**
+     * Объект, фиксирующий все возникшие ошибки при верификации.
+     */
     private final Errors errors;
+
+    /**
+     * Объект, необходимый для получения определенной информации из справочника контрагентов.
+     */
     private final CounterpartyService service;
 
     public CounterpartyVerification(Counterparty object, Errors errors, CounterpartyService service) {
@@ -18,6 +35,14 @@ class CounterpartyVerification implements Verification {
         this.service = service;
     }
 
+    /**
+     * Процедура, выполняющая основной процесс верификации полей объекта Counterparty.
+     * @see #verificationTheNameField(Counterparty, Errors).
+     * @see #verificationTheTinField(Counterparty, Errors).
+     * @see #verificationTheTrrField(Counterparty, Errors).
+     * @see #verificationTheAccountNumberField(Counterparty, Errors).
+     * @see #verificationTheBicField(Counterparty, Errors).
+     */
     @Override
     public void perform() {
         verificationTheNameField(object, errors);
@@ -27,6 +52,17 @@ class CounterpartyVerification implements Verification {
         verificationTheBicField(object, errors);
     }
 
+    /**
+     * Процедура, совершающая верификацию поля name.
+     * Объект, проходящий верификацию, является валидным (поля являются корректными), если:
+     * 1) Наименование контрагента является не пустым;
+     * 2) Наименование контрагента не содержит невидимые символы, пробелы в начале или конце;
+     * 3) Наименование контрагента не превышает 20 символов;
+     * 4) Наименование контрагента является уникальным (не существует уже в справочнике).
+     * Если не выполнено хотя бы одно условие, то считается, что объект не прошел верификацию.
+     * @param c - объект, который проходит верификацию.
+     * @param errors - объект, необходимый для фиксирования ошибок.
+     */
     private void verificationTheNameField(Counterparty c, Errors errors) {
         if (c.getName().isBlank()) {
             errors.rejectValue("name", "", "Наименование не должно быть пустым.");
@@ -43,6 +79,20 @@ class CounterpartyVerification implements Verification {
         }
     }
 
+    /**
+     * Процедура, совершающая верификацию поля TIN.
+     * Объект, проходящий верификацию, является валидным (поля являются корректными), если:
+     * 1) ИНН контрагента является не пустым;
+     * 2) ИНН контрагента не содержит невидимые символы, пробелы в начале или конце;
+     * 3) ИНН контрагента состоит из 10 или 12 цифр;
+     * 4) ИНН контрагента содержит только цифры;
+     * 5) ИНН контрагента является действительным (корректным).
+     * Если не выполнено хотя бы одно условие, то считается, что объект не прошел верификацию.
+     * @param c - объект, который проходит верификацию.
+     * @param errors - объект, необходимый для фиксирования ошибок.
+     * @see MyStringUtils#isNumeric(String).
+     * @see #checkingTheTin(String).
+     */
     private void verificationTheTinField(Counterparty c, Errors errors) {
         if (c.getTIN().isBlank()) {
             errors.rejectValue("TIN", "", "ИНН не должен быть пустым.");
@@ -57,6 +107,21 @@ class CounterpartyVerification implements Verification {
         }
     }
 
+
+    /**
+     * Процедура, совершающая верификацию поля TRR.
+     * Объект, проходящий верификацию, является валидным (поля являются корректными), если:
+     * 1) КПП контрагента является не пустым;
+     * 2) КПП контрагента не содержит невидимые символы, пробелы в начале или конце;
+     * 3) КПП контрагента состоит из 9 знаков;
+     * 4) КПП контрагента содержит только цифры (не считая 5 и 6 знаки, т.к они могут быть буквами);
+     * 5) КПП контрагента на 5 и 6 позициях состоит либо только из цифр, либо только из латинских букв.
+     * Если не выполнено хотя бы одно условие, то считается, что объект не прошел верификацию.
+     * @param c - объект, который проходит верификацию.
+     * @param errors - объект, необходимый для фиксирования ошибок.
+     * @see MyStringUtils#isLatinLetters(String).
+     * @see MyStringUtils#isNumeric(String).
+     */
     private void verificationTheTrrField(Counterparty c, Errors errors) {
         if (c.getTRR().isBlank()) {
             errors.rejectValue("TRR", "", "КПП не должен быть пустым.");
@@ -71,6 +136,21 @@ class CounterpartyVerification implements Verification {
         }
     }
 
+    /**
+     * Процедура, совершающая верификацию поля accountNumber.
+     * Объект, проходящий верификацию, является валидным (поля являются корректными), если:
+     * 1) Номер счета контрагента является не пустым;
+     * 2) Номер счета контрагента не содержит невидимые символы, пробелы в начале или конце;
+     * 3) Номер счета контрагента состоит из 20 цифр;
+     * 4) Номер счета контрагента содержит только цифры;
+     * 5) БИК контрагента введен корректно;
+     * 6) Номер счета контрагента является действительным (корректным).
+     * Если не выполнено хотя бы одно условие, то считается, что объект не прошел верификацию.
+     * @param c - объект, который проходит верификацию.
+     * @param errors - объект, необходимый для фиксирования ошибок.
+     * @see MyStringUtils#isNumeric(String).
+     * @see #checkingTheAccountNumber(String, String).
+     */
     private void verificationTheAccountNumberField(Counterparty c, Errors errors) {
         if (c.getAccountNumber().isBlank()) {
             errors.rejectValue("accountNumber", "", "Номер счёта не должен быть пустым.");
@@ -87,6 +167,18 @@ class CounterpartyVerification implements Verification {
         }
     }
 
+    /**
+     * Процедура, совершающая верификацию поля BIC.
+     * Объект, проходящий верификацию, является валидным (поля являются корректными), если:
+     * 1) БИК контрагента является не пустым;
+     * 2) БИК контрагента не содержит невидимые символы, пробелы в начале или конце;
+     * 3) БИК контрагента состоит из 9 цифр;
+     * 4) БИК контрагента содержит только цифры.
+     * Если не выполнено хотя бы одно условие, то считается, что объект не прошел верификацию.
+     * @param c - объект, который проходит верификацию.
+     * @param errors - объект, необходимый для фиксирования ошибок.
+     * @see MyStringUtils#isNumeric(String).
+     */
     private void verificationTheBicField(Counterparty c, Errors errors) {
         if (c.getBIC().isBlank()) {
             errors.rejectValue("BIC", "", "БИК не должен быть пустым.");
@@ -99,6 +191,18 @@ class CounterpartyVerification implements Verification {
         }
     }
 
+    /**
+     * Функция, необходимая для того, чтобы проверить корректность ИНН.
+     * Если ИНН состоит из 10 цифр, то вычисляется контрольное число, справнивающееся с последней цифрой ИНН. В случае
+     * совпадения ИНН считается корректным.
+     * Если ИНН состоит из 12 цифр, то вычисляются два контрольных числа, которые сравниваются с последними цифрами ИНН.
+     * В случае двух совпадений ИНН считается корректным.
+     * @param TIN - ИНН, проходящий проверку.
+     * @returns:
+     * 1) true, если ИНН прошел проверку на корректность;
+     * 2) false в ином случае.
+     * @see #getControlNumberForTin(String, int[]).
+     */
     private boolean checkingTheTin(String TIN) {
         int [] coefficients = {3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8};
 
@@ -114,6 +218,17 @@ class CounterpartyVerification implements Verification {
         }
     }
 
+    /**
+     * Функция, необходимая для проверки номера счета на корректность.
+     * Контрольная сумма для рассчетного и корреспондентского счета выполяются по-разному, но их результат должен быть
+     * равен нулю по модулю 10.
+     * @param an - номер счета контрагента.
+     * @param BIC - БИК контрагента.
+     * @returns:
+     * 1) true, если номер счета прошел проверку на корректность;
+     * 2) false в ином случае.
+     * @see #getChecksum(String, int[]).
+     */
     private boolean checkingTheAccountNumber(String an, String BIC) {
         int [] coefficients = {7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1};
         String lastThreeDigitsOfBIC = BIC.substring(BIC.length() - 3);
@@ -125,6 +240,14 @@ class CounterpartyVerification implements Verification {
         }
     }
 
+    /**
+     * Функция, возвращающая контрольное число для ИНН путем вычисления контрольной суммы, преобразованной по модулю 11.
+     * Если все же контрольная сумма является двузначной, то происходит преобразование по модулю 10.
+     * @param TIN - ИНН, проходящий проверку.
+     * @param coefficients - необходимые коэффициенты для вычисления контрольной суммы.
+     * @return возвращает контрольное число.
+     * @see #getChecksum(String, int[]).
+     */
     private int getControlNumberForTin(String TIN, int [] coefficients) {
         int controlNumber = getChecksum(TIN, coefficients) % 11;
 
@@ -135,6 +258,12 @@ class CounterpartyVerification implements Verification {
         return controlNumber;
     }
 
+    /**
+     * Функция, вычисляющая контрольную сумму для определенного ИНН при постоянных коэффициентов.
+     * @param input - ИНН, проходящий проверку.
+     * @param coefficients - необходимые коэффициенты для вычисления контрольной суммы.
+     * @return возвращает контрольную сумму ИНН.
+     */
     private int getChecksum(String input, int [] coefficients) {
         int checksum = 0;
 

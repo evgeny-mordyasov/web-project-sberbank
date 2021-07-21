@@ -16,19 +16,40 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
+/**
+ * Класс CounterpartyValidatorTest, позволяющий совершить тестирование класса CounterpartyValidator, необходимый для
+ * валидации объектов класса Counterparty.
+ */
 @ExtendWith(SpringExtension.class)
 public class CounterpartyValidatorTest {
+    /**
+     * Сервис, подмененным ненастоящим путем вызова mock(Class).
+     * Т.к идет проверка валидации полей, работа сервиса не интересна.
+     */
     private final CounterpartyService service =
             mock(CounterpartyService.class);
 
+    /**
+     * Объект, который изначально будет являться валидным (корректным).
+     */
     private Counterparty validObject;
 
+    /**
+     * Объект, фиксирующий возникшие ошибки при валидации.
+     * Его работа тоже не интересна в данном тестовом классе.
+     */
     @MockBean
     private Errors errors;
 
+    /**
+     * Объект, как раз необходимый для тестирования.
+     */
     private final Validator validator =
             new CounterpartyValidator(service);
 
+    /**
+     * Поле, отвечающее за кол-во вызовов методов.
+     */
     private final int calledOnce = 1;
 
     @BeforeEach

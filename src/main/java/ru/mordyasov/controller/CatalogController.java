@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 
+/**
+ * Класс CatalogController, выводящий главную страницу (справочник контрагентов) и содержащий
+ * два перехода на другие страницы:
+ * 1) Переход к поиску контрагентов в справочнике по фильтру;
+ * 2) Переход к операциям над контрагентами в справочнике.
+ */
 @Controller
 @RequestMapping("/catalog")
 public class CatalogController {

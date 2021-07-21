@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.mordyasov.service.interfaces.CounterpartyService;
 import ru.mordyasov.utils.MyStringUtils;
 
-import java.util.Map;
-
+/**
+ * Класс RemovalController, позволяющий сначала отыскать контрагента из справочника по определенному фильтру, а после
+ * совершить удаление при необходимости.
+ */
 @Controller
 @RequestMapping("/catalog/operations/delete")
 public class RemovalController {

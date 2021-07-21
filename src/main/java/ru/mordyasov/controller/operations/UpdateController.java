@@ -17,6 +17,10 @@ import ru.mordyasov.utils.MyStringUtils;
 
 import java.util.Map;
 
+/**
+ * Класс UpdateController, позволяющий совершить обновление данных контрагента из справочника, предварительно отыскав его
+ * по выбранному фильтру: по наименованию или идентификатору.
+ */
 @Controller
 @RequestMapping("/catalog/operations/update")
 public class UpdateController {

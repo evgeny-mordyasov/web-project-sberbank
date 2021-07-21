@@ -6,16 +6,43 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
+/**
+ * Класс - контрагент, являющийся неотъемлемой частью в работе данного приложения.
+ * Класс, содержащий в себе всю необходимую информацию о контрагенте и являющимся POJO-классом.
+ * Представляет также сущность в базе данных.
+ */
 @Entity
 public class Counterparty {
+    /**
+     * Поле id - идентификатор, использующийся в базе данных.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    /**
+     * Поле name - наименование контрагента.
+     */
     private String name;
+
+    /**
+     * Поле TIN - ИНН контрагента.
+     */
     private String TIN;
+
+    /**
+     * Поле TRR - КПП контрагента.
+     */
     private String TRR;
+
+    /**
+     * Поле accountNumber - номер счета контрагента.
+     */
     private String accountNumber;
+
+    /**
+     * Поле BIC - БИК контрагента.
+     */
     private String BIC;
 
     public Counterparty(Long id, String name, String TIN, String TRR, String accountNumber, String BIC) {

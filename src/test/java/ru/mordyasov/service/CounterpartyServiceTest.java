@@ -17,18 +17,31 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
+/**
+ * Класс CounterpartyServiceTest, необходимый для тестирования класса CounterpartyService.
+ * Тестовый класс работает сразу с двумя слоями: Repository (DAO) и Service.
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @TestPropertySource("/application-test.properties")
 @Sql(value = {"/sql/create-counterparty-before-each.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class CounterpartyServiceTest {
+    /**
+     * Объект, который тестируется.
+     */
     @Autowired
     private CounterpartyService service;
 
+    /**
+     * Идентификатор объекта в БД.
+     */
     private final long objectIdInDb = 1L;
 
     private final String emptyData = "";
 
+    /**
+     * Объект из БД (содержится в .sql файле).
+     */
     private final Counterparty objectFromDB = new Counterparty(objectIdInDb,
             "Сбербанк",
             "7707083893",
@@ -98,7 +111,9 @@ public class CounterpartyServiceTest {
                 .isEqualTo(List.of(objectFromDB, testObjectTemp));
     }
 
-    // Зависимость от .find
+    /**
+     * Тест является подготовленным для совершения тестирования, если корректно работает service.find(Long).
+     */
     @Test
     @SqlMergeMode(SqlMergeMode.MergeMode.OVERRIDE)
     @Sql(value = "/sql/delete-from-counterparty.sql")
@@ -111,7 +126,9 @@ public class CounterpartyServiceTest {
         assertThat(service.find(defaultIdWhenAdding)).isEqualTo(Optional.of(objectTemp));
     }
 
-    // Зависимость от .find
+    /**
+     * Тест является подготовленным для совершения тестирования, если корректно работает service.find(Long).
+     */
     @Test
     public void delete() {
         service.delete(objectFromDB);
@@ -119,7 +136,9 @@ public class CounterpartyServiceTest {
         assertThat(service.find(objectFromDB.getId())).isEqualTo(Optional.empty());
     }
 
-    // Зависимость от .find
+    /**
+     * Тест является подготовленным для совершения тестирования, если корректно работает service.find(Long).
+     */
     @Test
     public void update() {
         Optional<Counterparty> object = service.find(objectFromDB.getId());
